@@ -5,7 +5,13 @@ const render = function (todos) {
 
     todos.forEach(todo => {
         $("#todos").append(`
-        <div data-id=${todo.id} class="todo ${todo.complete ? 'complete' : ''}">
+        <div data-id=${todo.id} class="todo ${todo.complete ? 'complete' : ''}"> 
+                <input type="radio" " name="priority${todo.id}" value="HIGH">
+                <label for="HIGH">HIGH</label><br>
+                <input type="radio" name="priority${todo.id}" value="MED">
+                <label for="MED">MED</label><br>
+                <input type="radio" name="priority${todo.id}" value="LOW">
+                <label for="LOW">LOW</label>
             <i class="fas fa-check-circle"></i>
             <span class=text>${todo.text}</span>
             <span class="delete"><i class="fas fa-trash"></i></span>
@@ -13,6 +19,24 @@ const render = function (todos) {
         `)
     })
 }
+
+$("#todos").on("click", "input", function () {
+    if($(this).val() == 'HIGH'){
+        $(this).closest('.todo').css('background-color', 'red')
+    }
+    if($(this).val() == 'MED'){
+        $(this).closest('.todo').css('background-color', 'orange')
+        
+    }
+    if($(this).val() == 'LOW'){
+        $(this).closest('.todo').css('background-color', 'green')
+    }
+    // $.ajax({
+    //     method: "PUT",
+    //     url: "/todo/" + id,
+    //     success: todos => render(todos)
+    // })
+})
 
 const add = function () {
     $.post('/todo', { text: $("#todo-input").val() }, function (todos) {
